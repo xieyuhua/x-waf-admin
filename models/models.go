@@ -1,3 +1,11 @@
+/*
+ * @Descripttion:
+ * @version:
+ * @Author: seaslog
+ * @Date: 2022-04-15 16:45:04
+ * @LastEditors: 谢余华
+ * @LastEditTime: 2022-04-27 17:14:08
+ */
 package models
 
 import (
@@ -34,7 +42,7 @@ func init() {
 	ret, err := Engine.IsTableEmpty(new(User))
 	if err == nil && ret {
 		log.Printf("create new user:%v, password:%v\n", "admin", "x@xsec.io")
-		NewUser("admin", "x@xsec.io")
+		NewUser("admin", "xieyuhua")
 	}
 
 	ret, err = Engine.IsTableEmpty(new(Rules))

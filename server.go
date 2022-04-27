@@ -84,6 +84,11 @@ func main() {
 			m.Get("/del/:id", routers.DelUser)
 			m.Get("/json/", routers.UserJSON)
 		})
+
+		m.Group("/waflog/", func() {
+			m.Get("", routers.ListLogs)
+		})
+
 	})
 
 	m.Group("/api", func() {

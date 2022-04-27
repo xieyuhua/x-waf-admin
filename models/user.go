@@ -1,8 +1,17 @@
+/*
+ * @Descripttion:
+ * @version:
+ * @Author: seaslog
+ * @Date: 2022-04-27 16:05:25
+ * @LastEditors: 谢余华
+ * @LastEditTime: 2022-04-27 16:13:52
+ */
 package models
 
 import (
-	"github.com/xsec-lab/x-waf-admin/modules/util"
 	"log"
+
+	"github.com/xsec-lab/x-waf-admin/modules/util"
 )
 
 type User struct {

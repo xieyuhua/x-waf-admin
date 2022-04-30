@@ -88,7 +88,14 @@ func main() {
 		m.Group("/waflog/", func() {
 			m.Get("", routers.ListLogs)
 		})
+		m.Group("/iplog/", func() {
+			m.Get("", routers.ListIPs)
 
+		})
+		m.Group("/typelog/", func() {
+			m.Get("", routers.ListTypes)
+
+		})
 	})
 
 	m.Group("/api", func() {

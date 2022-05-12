@@ -58,6 +58,7 @@
 		<li><a href="/admin/index/"><svg class="glyph stroked gear"><use xlink:href="#stroked-gear"/></svg> Index</a></li>
 		<li><a href="/admin/typelog/"><svg class="glyph stroked desktop"><use xlink:href="#stroked-desktop"/></svg> type record</a></li>
 		<li><a href="/admin/iplog/"><svg class="glyph stroked desktop"><use xlink:href="#stroked-desktop"/></svg> ip record</a></li>
+		<li><a href="/admin/dates/"><svg class="glyph stroked desktop"><use xlink:href="#stroked-desktop"/></svg> date record</a></li>
 		
 		
 		<li  class="active"><a href="/admin/waflog/"><svg class="glyph stroked desktop"><use xlink:href="#stroked-desktop"/></svg> log record</a></li>
@@ -85,31 +86,31 @@
 	<div class="row">
 		<div class="col-lg-12">
 			<div class="panel panel-default">
-				<div class="panel-body">
+				<div class="panel-body" style="overflow: scroll;">
 					<table  align="center" class="table table-hover table-bordered">
 						<thead>
 						<tr align="center">
 							<th>ID</th>
 							<th>client_ip</th>
+							<th>area</th>
 							<th>local_time</th>
 							<th>server_name</th>
 							<th>user_agent</th>
 							<th>attack_type</th>
 							<th>req_url</th>
-							<th>req_data</th>
-							<th>rule_tag</th>
+							<!--<th>rule_tag</th>-->
 						</tr>
 						{{range .waflog}}
 						<tr>
 							<td>{{.Id}}</td>
 							<td>{{.ClientIp}}</td>
+							<td>{{.Area}}</td>
 							<td>{{.LocalTime}}</td>
 							<td>{{.ServerName}}</td>
 							<td>{{.UserAgent}}</td>
 							<td>{{.AttackType}}</td>
 							<td>{{.ReqUrl}}</td>
-							<td>{{.ReqData}}</td>
-							<td>{{.RuleTag}}</td>
+							<!--<td>{{.RuleTag}}</td>-->
 						</tr>
 						{{end}}
 						</thead>

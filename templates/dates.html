@@ -1,0 +1,186 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: seaslog
+ * @Date: 2022-04-30 15:34:41
+ * @LastEditors: 谢余华
+ * @LastEditTime: 2022-05-09 17:57:20
+-->
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: seaslog
+ * @Date: 2022-04-27 16:11:54
+ * @LastEditors: 谢余华
+ * @LastEditTime: 2022-04-27 17:09:00
+-->
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>防火墙后台</title>
+	<link href="/css/bootstrap.min.css" rel="stylesheet">
+	<link href="/css/datepicker3.css" rel="stylesheet">
+	<link href="/css/bootstrap-table.css" rel="stylesheet">
+	<link href="/css/styles.css" rel="stylesheet">
+	<!--Icons-->
+	<script src="/js/lumino.glyphs.js"></script>
+	<!--[if lt IE 9]>
+	<script src="/js/html5shiv.js"></script>
+	<script src="/js/respond.min.js"></script>
+	<![endif]-->
+</head>
+
+<body>
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#sidebar-collapse">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="#"><span>waf</span>防火墙后台</a>
+			<ul class="user-menu">
+				<li class="dropdown pull-right">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown"><svg class="glyph stroked male-user"><use xlink:href="#stroked-male-user"></use></svg> User <span class="caret"></span></a>
+					<ul class="dropdown-menu" role="menu">
+						<li><a href="/admin/user/"><svg class="glyph stroked gear"><use xlink:href="#stroked-gear"></use></svg> Settings</a></li>
+						<li><a href="/admin/logout/"><svg class="glyph stroked cancel"><use xlink:href="#stroked-cancel"></use></svg> Logout</a></li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+
+	</div><!-- /.container-fluid -->
+</nav>
+
+<div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar">
+	<form role="search">
+		<div class="form-group">
+			<input type="text" class="form-control" placeholder="Search">
+		</div>
+	</form>
+	<ul class="nav menu">
+		<li><a href="/admin/index/"><svg class="glyph stroked gear"><use xlink:href="#stroked-gear"/></svg> Index</a></li>
+		<li><a href="/admin/typelog/"><svg class="glyph stroked desktop"><use xlink:href="#stroked-desktop"/></svg> type record</a></li>
+		<li><a href="/admin/iplog/"><svg class="glyph stroked desktop"><use xlink:href="#stroked-desktop"/></svg> ip record</a></li>
+		<li  class="active"><a href="/admin/dates/"><svg class="glyph stroked desktop"><use xlink:href="#stroked-desktop"/></svg> date record</a></li>
+		
+		<li><a href="/admin/waflog/"><svg class="glyph stroked desktop"><use xlink:href="#stroked-desktop"/></svg> log record</a></li>
+		
+		<li ><a href="/admin/user/"><svg class="glyph stroked male user "><use xlink:href="#stroked-male-user"/></svg> Users</a></li>
+		<li><a href="/admin/rule/"><svg class="glyph stroked lock"><use xlink:href="#stroked-lock"/></svg> WAF rules</a></li>
+
+		<li role="presentation" class="divider"></li>
+	</ul>
+</div><!--/.sidebar-->
+
+<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
+	<div class="row">
+		<ol class="breadcrumb">
+			<li><a href="#"><svg class="glyph stroked home"><use xlink:href="#stroked-home"></use></svg></a></li>
+			<li class="active">Users</li>
+		</ol>
+	</div><!--/.row-->
+
+	<div class="row">
+		<div class="col-lg-12">
+			<h1 class="page-header">Num List</h1>
+		</div>
+	</div><!--/.row-->
+
+
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="panel panel-default">
+				<div  style="overflow: scroll;">
+				    <div style="max-width: 900px;height: 500px;">
+				       <canvas id="line-chart" ></canvas>
+					</div>
+					
+					<table  align="center" class="table table-hover table-bordered">
+						<thead>
+						<tr align="center">
+							<th>日期</th>
+							<th>拦截次数</th>
+						</tr>
+						{{range .dates}}
+						<tr>
+							<td>{{.Date}}</td>
+							<td>{{.Num}}</td>
+						</tr>
+						{{end}}
+						
+						</thead>
+					</table>
+					
+				</div>
+			</div>
+		</div>
+		
+	</div><!--/.main-->
+
+
+
+	<script src="/js/jquery-1.11.1.min.js"></script>
+	<script src="/js/bootstrap.min.js"></script>
+	<script src="/js/chart.min.js"></script>
+	<script src="/js/bootstrap-datepicker.js"></script>
+	<script src="/js/bootstrap-table.js"></script>
+	<script>
+		!function ($) {
+			$(document).on("click","ul.nav li.parent > a > span.icon", function(){
+				$(this).find('em:first').toggleClass("glyphicon-minus");
+			});
+			$(".sidebar span.icon").find('em:first').addClass("glyphicon-plus");
+		}(window.jQuery);
+
+		$(window).on('resize', function () {
+		  if ($(window).width() > 768) $('#sidebar-collapse').collapse('show')
+		})
+		$(window).on('resize', function () {
+		  if ($(window).width() <= 767) $('#sidebar-collapse').collapse('hide')
+		})
+	</script>
+	<script>
+            var randomScalingFactor = function(){ return Math.round(Math.random()*100)};
+            
+            var arr = {{.dates}};
+            var datevalue = [];
+            var numvalue = [];
+            for(var i=0;i<arr.length;i++){
+                
+                datevalue.unshift(arr[i]['Date']);
+                numvalue.unshift(arr[i]['Num']);
+            }
+            
+        	var lineChartData = {
+        			labels : datevalue,
+        			datasets : [
+        				{
+        					label: "My Second dataset",
+        					fillColor : "rgba(48, 164, 255, 0.2)",
+        					strokeColor : "rgba(48, 164, 255, 1)",
+        					pointColor : "rgba(48, 164, 255, 1)",
+        					pointStrokeColor : "#fff",
+        					pointHighlightFill : "#fff",
+        					pointHighlightStroke : "rgba(48, 164, 255, 1)",
+        					data : numvalue
+        				}
+        			]
+        		}
+        	
+        window.onload = function(){
+        	var chart1 = document.getElementById("line-chart").getContext("2d");
+        	window.myLine = new Chart(chart1).Line(lineChartData, {
+        		responsive: true
+        	});
+        };
+	</script>
+	
+</div>
+</body>
+
+</html>

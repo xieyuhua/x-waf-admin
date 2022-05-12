@@ -72,10 +72,10 @@
 	</form>
 	<ul class="nav menu">
 		<li><a href="/admin/index/"><svg class="glyph stroked gear"><use xlink:href="#stroked-gear"/></svg> Index</a></li>
-		
-		
 		<li  class="active"><a href="/admin/typelog/"><svg class="glyph stroked desktop"><use xlink:href="#stroked-desktop"/></svg> type record</a></li>
 		<li ><a href="/admin/iplog/"><svg class="glyph stroked desktop"><use xlink:href="#stroked-desktop"/></svg> ip record</a></li>
+		<li><a href="/admin/dates/"><svg class="glyph stroked desktop"><use xlink:href="#stroked-desktop"/></svg> date record</a></li>
+		
 		<li><a href="/admin/waflog/"><svg class="glyph stroked desktop"><use xlink:href="#stroked-desktop"/></svg> log record</a></li>
 		<li ><a href="/admin/user/"><svg class="glyph stroked male user "><use xlink:href="#stroked-male-user"/></svg> Users</a></li>
 		<li><a href="/admin/rule/"><svg class="glyph stroked lock"><use xlink:href="#stroked-lock"/></svg> WAF rules</a></li>
@@ -101,12 +101,19 @@
 	<div class="row">
 		<div class="col-lg-12">
 			<div class="panel panel-default">
-				<div class="panel-body">
+				<div class="panel-body" style="overflow: scroll;">
+				    <div>
+    				    <div style="max-width: 900px;max-height: 500px;">
+    				       <canvas id="pie-chart"></canvas>
+    					</div>
+    				    
+
+				    
 					<table  align="center" class="table table-hover table-bordered">
 						<thead>
 						<tr align="center">
-							<th>类型</th>
-							<th>次数</th>
+							<th>攻击类型</th>
+							<th>拦截次数</th>
 						</tr>
 						{{range .typelogs}}
 						<tr>
@@ -125,9 +132,6 @@
 	<script src="/js/jquery-1.11.1.min.js"></script>
 	<script src="/js/bootstrap.min.js"></script>
 	<script src="/js/chart.min.js"></script>
-	<script src="/js/chart-data.js"></script>
-	<script src="/js/easypiechart.js"></script>
-	<script src="/js/easypiechart-data.js"></script>
 	<script src="/js/bootstrap-datepicker.js"></script>
 	<script src="/js/bootstrap-table.js"></script>
 	<script>
@@ -145,6 +149,66 @@
 		  if ($(window).width() <= 767) $('#sidebar-collapse').collapse('hide')
 		})
 	</script>
+	<script>
+            var arr = {{.typelogs}};
+            var pieData = [];
+     
+            
+	var pieData = [
+				{
+					value: 300,
+					color:"#30a5ff",
+					highlight: "#62b9fb",
+					label: "cc攻击"
+				},
+				{
+					value: 50,
+					color: "#ffb53e",
+					highlight: "#fac878",
+					label: "黑名单url"
+				},
+				{
+					value: 100,
+					color: "#1ebfae",
+					highlight: "#3cdfce",
+					label: "黑名单ip"
+				},
+				{
+					value: 120,
+					color: "#f9443f",
+					highlight: "#f6495f",
+					label: "get参数攻击	"
+				},
+				{
+					value: 120,
+					color: "#f9343f",
+					highlight: "#f6395f",
+					label: "post参数攻击"
+				},
+				{
+					value: 120,
+					color: "#f9243f",
+					highlight: "#f6295f",
+					label: "user-agent攻击"
+				},
+				{
+					value: 120,
+					color: "#f9143f",
+					highlight: "#f6195f",
+					label: "Cookie攻击"
+				}
+			];
+			
+window.onload = function(){
+	var chart4 = document.getElementById("pie-chart").getContext("2d");
+	window.myPie = new Chart(chart4).Pie(pieData, {responsive : true
+	});
+	
+};
+			
+			
+	</script>
+
 </div>
 </body>
 

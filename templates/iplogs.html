@@ -66,8 +66,9 @@
 		<li><a href="/admin/index/"><svg class="glyph stroked gear"><use xlink:href="#stroked-gear"/></svg> Index</a></li>
 		<li><a href="/admin/typelog/"><svg class="glyph stroked desktop"><use xlink:href="#stroked-desktop"/></svg> type record</a></li>
 		<li  class="active"><a href="/admin/iplog/"><svg class="glyph stroked desktop"><use xlink:href="#stroked-desktop"/></svg> ip record</a></li>
-		<li><a href="/admin/waflog/"><svg class="glyph stroked desktop"><use xlink:href="#stroked-desktop"/></svg> log record</a></li>
+		<li><a href="/admin/dates/"><svg class="glyph stroked desktop"><use xlink:href="#stroked-desktop"/></svg> date record</a></li>
 		
+		<li><a href="/admin/waflog/"><svg class="glyph stroked desktop"><use xlink:href="#stroked-desktop"/></svg> log record</a></li>
 		<li ><a href="/admin/user/"><svg class="glyph stroked male user "><use xlink:href="#stroked-male-user"/></svg> Users</a></li>
 		<li><a href="/admin/rule/"><svg class="glyph stroked lock"><use xlink:href="#stroked-lock"/></svg> WAF rules</a></li>
 
@@ -92,16 +93,18 @@
 	<div class="row">
 		<div class="col-lg-12">
 			<div class="panel panel-default">
-				<div class="panel-body">
+				<div class="panel-body" style="overflow: scroll;">
 					<table  align="center" class="table table-hover table-bordered">
 						<thead>
 						<tr align="center">
-							<th>ip</th>
-							<th>次数</th>
+							<th>攻击者ip</th>
+							<th>地区</th>
+							<th>攻击次数</th>
 						</tr>
 						{{range .iplogs}}
 						<tr>
 							<td>{{.ClientIp}}</td>
+							<td>{{.Area}}</td>
 							<td>{{.Num}}</td>
 						</tr>
 						{{end}}

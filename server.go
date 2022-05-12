@@ -96,6 +96,10 @@ func main() {
 			m.Get("", routers.ListTypes)
 
 		})
+		m.Group("/dates/", func() {
+			m.Get("", routers.ListDate)
+
+		})
 	})
 
 	m.Group("/api", func() {

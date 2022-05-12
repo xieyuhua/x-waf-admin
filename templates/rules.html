@@ -53,6 +53,7 @@
 		<li><a href="/admin/index/"><svg class="glyph stroked gear"><use xlink:href="#stroked-gear"/></svg> Index</a></li>
 		<li><a href="/admin/typelog/"><svg class="glyph stroked desktop"><use xlink:href="#stroked-desktop"/></svg> type record</a></li>
 		<li><a href="/admin/iplog/"><svg class="glyph stroked desktop"><use xlink:href="#stroked-desktop"/></svg> ip record</a></li>
+		<li><a href="/admin/dates/"><svg class="glyph stroked desktop"><use xlink:href="#stroked-desktop"/></svg> date record</a></li>
 		
 		<li><a href="/admin/waflog/"><svg class="glyph stroked desktop"><use xlink:href="#stroked-desktop"/></svg> log record</a></li>
 		<li><a href="/admin/user/"><svg class="glyph stroked male user "><use xlink:href="#stroked-male-user"/></svg> Users</a></li>
@@ -81,7 +82,7 @@
 					<a href="/admin/rule/sync/" class="btn btn-large btn-primary btn-block">同步全部策略</a>
 				</div>
 				<h2>{{.Flash.SuccessMsg}}</h2>
-				<div class="panel-body">
+				<div class="panel-body" style="overflow: scroll;">
 					{{range $ruleEN, $ruleCN := .RuleInfo}}
 					<table  align="center" class="table table-hover table-bordered">
 						<thead>

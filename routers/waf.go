@@ -51,3 +51,17 @@ func ListTypes(ctx *macaron.Context, sess session.Store) {
 	}
 
 }
+
+
+func ListDate(ctx *macaron.Context, sess session.Store) {
+	if sess.Get("uid") != nil {
+		dates, _ := models.Listdate()
+		ctx.Data["dates"] = dates
+		log.Println(dates)
+		ctx.HTML(200, "dates")
+	} else {
+		ctx.Redirect("/login/")
+	}
+
+}
+

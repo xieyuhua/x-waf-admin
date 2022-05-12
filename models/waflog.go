@@ -18,18 +18,25 @@ type WafLog struct {
 	UserAgent  string
 	AttackType string
 	ReqUrl     string
+	Area     string
 	ReqData    string
 	RuleTag    string
 }
 
 type IpsLog struct {
 	Num      int64
+	Area string
 	ClientIp string
 }
 
 type TypeLog struct {
 	Num        int64
 	AttackType string
+}
+
+type Datenum struct {
+	Date string
+	Num  string
 }
 
 func ListLogs() (wlog []WafLog, err error) {
@@ -41,7 +48,7 @@ func ListLogs() (wlog []WafLog, err error) {
 
 func ListIP() (ipsLogs []IpsLog, err error) {
 	ipsLogs = make([]IpsLog, 0)
-	err = Engine.SQL("SELECT client_ip,COUNT(*) as num FROM `waf_log` GROUP BY client_ip ORDER BY num DESC").Find(&ipsLogs)
+	err = Engine.SQL("SELECT client_ip,COUNT(*) as num,area FROM `waf_log` GROUP BY client_ip ORDER BY num DESC").Find(&ipsLogs)
 	log.Println(err, ipsLogs)
 	return ipsLogs, err
 }
@@ -52,3 +59,12 @@ func Listtype() (typelogs []TypeLog, err error) {
 	log.Println(err, typelogs)
 	return typelogs, err
 }
+
+func Listdate() (dates []Datenum, err error) {
+	dates = make([]Datenum, 0)
+	err = Engine.SQL("SELECT substring_index(local_time, ' ', 1) as date,COUNT(*) as num FROM `waf_log` GROUP BY date ORDER BY date DESC LIMIT 14;").Find(&dates)
+	log.Println(err, dates)
+	return dates, err
+}
+
+

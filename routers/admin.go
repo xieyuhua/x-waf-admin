@@ -1,3 +1,11 @@
+/*
+ * @Descripttion:
+ * @version:
+ * @Author: seaslog
+ * @Date: 2022-04-15 16:45:04
+ * @LastEditors: 谢余华
+ * @LastEditTime: 2022-05-19 11:36:31
+ */
 package routers
 
 import (
@@ -16,9 +24,24 @@ func Admin(ctx *macaron.Context, sess session.Store) {
 	log.Println("session,", sess.Get("uid"))
 	if sess.Get("uid") != nil {
 		log.Println(sess.Get("uid"))
+		// 站点
 		sites, _ := models.ListSite()
 		ctx.Data["sites"] = sites
+		//今日ip
+		dates, _ := models.TodayListIP()
+		ctx.Data["dates"] = dates
+		//今日类型
+		typelog, _ := models.TodayListType()
+		ctx.Data["typelogs"] = typelog
+		//最近两周情况
+		date, _ := models.Listdate()
+		ctx.Data["date"] = date
+		//黑名单
+		blackips, _ := models.Blackip()
+		ctx.Data["blackips"] = blackips
+		//加载视图
 		ctx.HTML(200, "AdminIndex")
+
 	} else {
 		ctx.Redirect("/login/")
 	}

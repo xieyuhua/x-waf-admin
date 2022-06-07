@@ -27,12 +27,10 @@ func init() {
 
 func main() {
 	m := macaron.Classic()
-
 	m.Use(macaron.Renderer())
 	m.Use(session.Sessioner())
 	m.Use(csrf.Csrfer())
 	m.Use(cache.Cacher())
-
 	m.Use(captcha.Captchaer(captcha.Options{
 		URLPrefix:        "/captcha/",
 		FieldIdName:      "captcha_id",
@@ -86,6 +84,7 @@ func main() {
 		})
 
 		m.Group("/waflog/", func() {
+			m.Get("/:id", routers.ListLogs)
 			m.Get("", routers.ListLogs)
 		})
 		m.Group("/iplog/", func() {

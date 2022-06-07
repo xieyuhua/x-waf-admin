@@ -32,7 +32,7 @@ func (this *Pager) AllLink() string {
 	pageStr.WriteString(this.prevPage())
 	//页码
 	if this.AllPage >= this.Pernum {
-		if this.CurPage <= 4 {
+		if this.CurPage <= 7 {
 			for nb := 1; nb <= this.Pernum; nb++ {
 				pageStr.WriteString(this.nbPage(nb))
 			}

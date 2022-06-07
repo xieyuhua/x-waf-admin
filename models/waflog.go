@@ -9,7 +9,8 @@
 package models
 
 import "log"
-
+import "github.com/xsec-lab/x-waf-admin/setting"
+import "strconv"
 type WafLog struct {
 	Id         int64
 	ClientIp   string
@@ -38,12 +39,29 @@ type Datenum struct {
 	Num  string
 }
 
-func ListLogs() (wlog []WafLog, err error) {
+func PageCount() (total int, err error) {
+    wlog := new(WafLog)
+    var totalb int64
+	totalb,err = Engine.Count(wlog)
+	totals := strconv.FormatInt(totalb,10)
+	total,err = strconv.Atoi(totals)
+	log.Println(err, total)
+	return total, err
+}
+
+
+func ListLogs(curPage int) (wlog []WafLog, err error) {
 	wlog = make([]WafLog, 0)
-	err = Engine.Limit(60).Desc("id").Find(&wlog)
+    PageSize := setting.Cfg.Section("pager").Key("PAGEMax").MustInt(10)
+
+	offset := PageSize * (curPage - 1)
+	err = Engine.Limit(PageSize, offset).Find(&wlog)
+// 	err = Engine.Limit(5,1).Desc("id").Find(&wlog)
 	log.Println(err, wlog)
 	return wlog, err
 }
+
+
 
 func ListIP() (ipsLogs []IpsLog, err error) {
 	ipsLogs = make([]IpsLog, 0)

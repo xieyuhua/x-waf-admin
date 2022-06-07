@@ -14,18 +14,46 @@ import (
 	"github.com/go-macaron/session"
 	"github.com/xsec-lab/x-waf-admin/models"
 	"gopkg.in/macaron.v1"
+	"github.com/xsec-lab/x-waf-admin/modules/pager"
+	"github.com/xsec-lab/x-waf-admin/setting"
+
 )
 
 func ListLogs(ctx *macaron.Context, sess session.Store) {
 	if sess.Get("uid") != nil {
-		waflog, _ := models.ListLogs()
+
+	    curPage  :=  ctx.ParamsInt(":id")
+	    if curPage==0 {
+	        curPage = 1
+	    }
+	    
+    	allPage, _ := models.PageCount()
+    	perNum    := setting.Cfg.Section("pager").Key("PAGEMax").MustInt(10)
+    
+    	if allPage%perNum == 0 {
+    		allPage = perNum / perNum
+    	} else {
+    		allPage = allPage/perNum + 1
+    	}
+    	
+    	
+        var url = "/admin/waflog"
+        pager := pager.NewPage(allPage,curPage,perNum,url)
+        //样式1
+        pagelist := pager.AllLink()
+        ctx.Data["pagelist"] = pagelist
+
+
+		waflog, _ := models.ListLogs(curPage)
 		ctx.Data["waflog"] = waflog
+		
+		
+		
 		log.Println(waflog)
 		ctx.HTML(200, "waflog")
 	} else {
 		ctx.Redirect("/login/")
 	}
-
 }
 
 func ListIPs(ctx *macaron.Context, sess session.Store) {
